@@ -657,8 +657,8 @@ read_keytab_file(const char *filename)
                      g_snprintf(pos, KRB_MAX_ORIG_LEN-(pos-new_key->key_origin), "@%s",key.principal->realm));
             *pos=0;
             new_key->keytype=key.keyblock.keytype;
-            new_key->keylength=key.keyblock.keyvalue.length;
-            new_key->keyvalue=(char*)g_memdup(key.keyblock.keyvalue.data, key.keyblock.keyvalue.length);
+            new_key->keylength=(int)key.keyblock.keyvalue.length;
+            new_key->keyvalue=(char*)g_memdup(key.keyblock.keyvalue.data, (guint)key.keyblock.keyvalue.length);
             enc_key_list=new_key;
         }
     }while(ret==0);
@@ -733,9 +733,9 @@ printf("woohoo decrypted keytype:%d in frame:%u\n", ek->keytype, pinfo->fd->num)
             proto_tree_add_text(tree, NULL, 0, 0, "[Decrypted using: %s]", ek->key_origin);
             krb5_crypto_destroy(krb5_ctx, crypto);
             /* return a private g_malloced blob to the caller */
-            user_data=(char*)g_memdup(data.data, data.length);
+            user_data=(char*)g_memdup(data.data, (guint)data.length);
             if (datalen) {
-                *datalen = data.length;
+                *datalen = (int)data.length;
             }
             return user_data;
         }
