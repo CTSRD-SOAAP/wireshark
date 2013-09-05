@@ -45,6 +45,9 @@ proper helper routines
 #include <epan/expert.h>
 #include "packet-per.h"
 
+#ifdef SOAAP
+#include <soaap.h>
+#endif
 
 static int proto_per = -1;
 static int hf_per_GeneralString_length = -1;
@@ -284,6 +287,9 @@ dissect_per_open_type_pdu_new(tvbuff_t *tvb, guint32 offset, asn1_ctx_t *actx, p
 			field in the manner described above in Note 2.
 
  */
+#ifdef SOAAP
+__soaap_vuln_fn("CVE-2013-4935")
+#endif
 guint32
 dissect_per_length_determinant(tvbuff_t *tvb, guint32 offset, asn1_ctx_t *actx _U_, proto_tree *tree, int hf_index, guint32 *length)
 {
