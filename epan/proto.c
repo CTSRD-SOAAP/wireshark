@@ -49,6 +49,10 @@
 
 #include "wspython/wspy_register.h"
 
+#ifdef SOAAP
+#include <soaap.h>
+#endif
+
 #define SUBTREE_ONCE_ALLOCATION_NUMBER 8
 #define SUBTREE_MAX_LEVELS 256
 /* Throw an exception if we exceed this many tree items. */
@@ -6968,6 +6972,9 @@ proto_tree_add_bits_item(proto_tree *tree, const int hfindex, tvbuff_t *tvb,
  * Offset should be given in bits from the start of the tvb.
  */
 
+#ifdef SOAAP
+__soaap_vuln_fn("CVE-2013-4931")
+#endif
 static proto_item *
 _proto_tree_add_bits_ret_val(proto_tree *tree, const int hfindex, tvbuff_t *tvb,
 			    const guint bit_offset, const gint no_of_bits,
