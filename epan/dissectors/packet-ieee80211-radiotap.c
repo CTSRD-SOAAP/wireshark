@@ -42,6 +42,9 @@
 #include "packet-ieee80211-radiotap-iter.h"
 #include "packet-ieee80211-radiotap-defs.h"
 
+#ifdef SOAAP
+#include <soaap.h>
+#endif
 
 /* protocol */
 static int proto_radiotap = -1;
@@ -1840,6 +1843,9 @@ dissect_radiotap(tvbuff_t * tvb, packet_info * pinfo, proto_tree * tree)
 			}
 
 			if (known & IEEE80211_RADIOTAP_VHT_HAVE_BW) {
+				#ifdef SOAAP
+				__soaap_vuln_pt("CVE-2013-4921")
+				#endif
 				if (bw < sizeof(ieee80211_vht_bw2rate_index)/sizeof(ieee80211_vht_bw2rate_index[0]))
 					bandwidth = ieee80211_vht_bw2rate_index[bw];
 				else
