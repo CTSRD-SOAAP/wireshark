@@ -69,11 +69,21 @@ WIRESHARK_COMMON_SRC= \
 CFLAGS+=	-I${.CURDIR}/../.. \
 		-I${.CURDIR}/../../wiretap \
 		-I/usr/local/include/glib-2.0
+
+.include <bsd.own.mk>
+
 LDADD+=	-lkrb5 -lm -lpcap -lz \
 	-L/usr/local/lib -ladns -lglib-2.0 -lgmodule-2.0 -lGeoIP \
-	-L../libui -L${.CURDIR}/../libui -lui \
-	-L../libwiretap -L${.CURDIR}/../libwiretap -lwiretap \
+	-L../libui -L${.CURDIR}/../libui -lui
+
+.if ${MK_SOAAP} == "no"
+LDADD+=	-L../libwiretap -L${.CURDIR}/../libwiretap -lwiretap \
 	-L../libwireshark -L${.CURDIR}/../libwireshark -lwireshark \
 	-L../libwsutil -L${.CURDIR}/../libwsutil -l wsutil
+.else
+.include "${.CURDIR}/../libwiretap/Makefile.src"
+.include "${.CURDIR}/../libwireshark/Makefile.src"
+.include "${.CURDIR}/../libwsutil/Makefile.src"
+.endif
 
 .include <bsd.prog.mk>

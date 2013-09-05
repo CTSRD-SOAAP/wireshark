@@ -1,0 +1,32 @@
+.PATH:	${.CURDIR}/../../wsutil
+
+SRCS+=	aes.c \
+	airpdcap_wep.c \
+	crash_info.c \
+	crc10.c \
+	crc16.c \
+	crc16-plain.c \
+	crc32.c \
+	crc6.c \
+	crc7.c \
+	crc8.c \
+	crc11.c \
+	crcdrm.c \
+	des.c \
+	eax.c \
+	g711.c \
+	md4.c \
+	md5.c \
+	mpeg-audio.c \
+	nstime.c \
+	privileges.c \
+	sha1.c \
+	strnatcmp.c \
+	str_util.c \
+	rc4.c \
+	report_err.c \
+	tempfile.c \
+	type_util.c \
+	u3.c
+
+CFLAGS+=	-I${.CURDIR}/../../ -I/usr/local/include/glib-2.0
