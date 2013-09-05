@@ -44,6 +44,10 @@
 #include "packet-btl2cap.h"
 #include "packet-bluetooth-hci.h"
 
+#ifdef SOAAP
+#include <soaap.h>
+#endif
+
 static gint proto_btsdp                                                    = -1;
 
 static gint hf_pdu_id                                                      = -1;
@@ -1012,6 +1016,9 @@ get_type_length(tvbuff_t *tvb, gint offset, gint *length)
         break;
     }
 
+#ifdef SOAAP
+    __soaap_vuln_pt("CVE-2013-4927")
+#endif
     if (size < 0) {
         *length = 0; /* Add expert info? */
     }
