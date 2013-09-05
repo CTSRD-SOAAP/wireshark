@@ -30,6 +30,10 @@
 #include "pcap-encap.h"
 #include "netmon.h"
 
+#ifdef SOAAP
+#include <soaap.h>
+#endif
+
 /* The file at
  *
  *	ftp://ftp.microsoft.com/developr/drg/cifs/cifs/Bhfile.zip
@@ -191,6 +195,10 @@ static gboolean netmon_dump(wtap_dumper *wdh, const struct wtap_pkthdr *phdr,
     const guint8 *pd, int *err);
 static gboolean netmon_dump_close(wtap_dumper *wdh, int *err);
 
+#ifdef SOAAP
+__soaap_vuln_fn("CVE-2013-4934")
+__soaap_vuln_fn("CVE-2013-4933")
+#endif
 int netmon_open(wtap *wth, int *err, gchar **err_info)
 {
 	int bytes_read;
