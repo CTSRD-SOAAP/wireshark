@@ -48,6 +48,10 @@
 #include <wsutil/crc16-plain.h>
 #include "packet-pn.h"
 
+#ifdef SOAAP
+#include <soaap.h>
+#endif
+
 /* Define the pn-rt proto */
 static int proto_pn_rt     = -1;
 static gboolean pnio_desegment = TRUE;
@@ -155,7 +159,9 @@ dissect_DataStatus(tvbuff_t *tvb, int offset, proto_tree *tree, guint8 u8DataSta
     proto_tree_add_uint(sub_tree, hf_pn_rt_data_status_primary,    tvb, offset, 1, u8DataStatus);
 }
 
-
+#ifdef SOAAP
+__soaap_vuln_fn("CVE-2013-4936")
+#endif
 static gboolean
 IsDFP_Frame(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree)
 {
