@@ -50,6 +50,10 @@
 
 #include "packet-ber.h"
 
+#ifdef SOAAP
+#include <soaap.h>
+#endif
+
 #ifdef HAVE_LIBGCRYPT
 #include <wsutil/wsgcrypt.h>
 #endif
@@ -4238,6 +4242,9 @@ dissect_dvbci_tpdu_status(tvbuff_t *tvb, gint offset,
 
 /* dissect the header of a c_tpdu or r_tpdu
    return the length of the header (tag, len_field, t_c_id) or -1 for error */
+#ifdef SOAAP
+__soaap_vuln_fn("CVE-2013-4930")
+#endif
 static gint
 dissect_dvbci_tpdu_hdr(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree,
         guint8 direction, guint8 lpdu_tcid, guint32 tpdu_len,
