@@ -164,6 +164,18 @@ _libs_check_
 doc/ws.css
 ui/qt/config.pri
 
+# SOAAP and bmake #
+###################
+*.bc-a
+*.native-a
+*.obc
+bmake/libwireshark/dtd_parse.c
+bmake/libwireshark/dtd_preparse.c
+bmake/libwireshark/uat_load.c
+bmake/libwiretap/ascend.c
+bmake/libwiretap/ascend.h
+bmake/libwiretap/k12text.c
+
 # Misc #
 ########
 *.swp
