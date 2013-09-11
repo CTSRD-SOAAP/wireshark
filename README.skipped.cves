@@ -1,1 +1,5 @@
+CVEs from CVE-2013-4936 through CVE-2013-4920 have been analysed and
+soaap annotations have been added to the source tree except for the
+following ones:
+
 CVE-2013-4920 in generated code and unclear where the actual dereferences lie.
