@@ -66,7 +66,8 @@ WIRESHARK_COMMON_SRC= \
 	sync_pipe_write.c \
 	version_info.c
 
-CFLAGS+=	-I${.CURDIR}/../.. \
+CFLAGS+=	-I${.CURDIR} \
+		-I${.CURDIR}/../.. \
 		-I${.CURDIR}/../../wiretap \
 		-I/usr/local/include/glib-2.0
 
