@@ -29,12 +29,9 @@
 #include <glib.h>
 #include <epan/packet.h>
 #include <epan/wmem/wmem.h>
+#include <epan/epan_soaap.h>
 #include "packet-dcerpc.h"
 #include "packet-dcom.h"
-
-#ifdef SOAAP
-#include <soaap.h>
-#endif
 
 static int proto_ISystemActivator = -1;
 
@@ -244,10 +241,8 @@ dissect_TypeSzCommPrivHdr(tvbuff_t *tvb, gint offset, packet_info *pinfo,
 }
 
 
-#ifdef SOAAP
 __soaap_vuln_fn("CVE-2013-4926")
 __soaap_vuln_fn("CVE-2013-4924")
-#endif
 static int
 dissect_dcom_Property_Guid(tvbuff_t *tvb, gint offset, packet_info *pinfo,
                             proto_tree *tree, guint8 *drep)
@@ -279,10 +274,8 @@ dissect_dcom_ActivationPropertiesCustomerHdr_PropertyGuids(tvbuff_t *tvb, gint o
     return offset;
 }
 
-#ifdef SOAAP
 __soaap_vuln_fn("CVE-2013-4926")
 __soaap_vuln_fn("CVE-2013-4924")
-#endif
 static int
 dissect_dcom_Property_Size(tvbuff_t *tvb, gint offset, packet_info *pinfo,
                             proto_tree *tree, guint8 *drep)
@@ -380,9 +373,7 @@ dissect_dcom_ActivationProperty(tvbuff_t *tvb, gint offset, packet_info *pinfo,
 
 
 
-#ifdef SOAAP
 __soaap_vuln_fn("CVE-2013-4924")
-#endif
 static int
 dissect_dcom_ActivationPropertiesBody(tvbuff_t *tvb, gint offset, packet_info *pinfo,
                        proto_tree *tree, guint8 *drep)
@@ -420,10 +411,8 @@ dissect_dcom_ActivationPropertiesBody(tvbuff_t *tvb, gint offset, packet_info *p
     return offset;
 }
 
-#ifdef SOAAP
 __soaap_vuln_fn("CVE-2013-4923")
 __soaap_vuln_fn("CVE-2013-4922")
-#endif
 static int
 dissect_dcom_ActivationProperties(tvbuff_t *tvb, gint offset, packet_info *pinfo,
         proto_tree *tree, guint8 *drep, gint size _U_)
@@ -499,9 +488,7 @@ dissect_dcom_ContextMarshaler(tvbuff_t *tvb, gint offset, packet_info *pinfo,
     return offset;
 }
 
-#ifdef SOAAP
 __soaap_vuln_fn("CVE-2013-4925")
-#endif
 static int
 dissect_dcom_SpecialSystemProperties(tvbuff_t *tvb, gint offset, packet_info *pinfo,
                        proto_tree *tree, guint8 *drep, gint size)
@@ -589,9 +576,7 @@ dissect_InstantiationInfoIids(tvbuff_t *tvb, gint offset,
     return offset;
 }
 
-#ifdef SOAAP
 __soaap_vuln_fn("CVE-2013-4925")
-#endif
 static int
 dissect_dcom_InstantiationInfo(tvbuff_t *tvb, gint offset, packet_info *pinfo,
                        proto_tree *tree, guint8 *drep, gint size)
@@ -675,9 +660,7 @@ dissect_ActCtxInfo_CltCtx(tvbuff_t *tvb, gint offset,
     return offset;
 }
 
-#ifdef SOAAP
 __soaap_vuln_fn("CVE-2013-4925")
-#endif
 static int
 dissect_dcom_ActivationContextInfo(tvbuff_t *tvb, gint offset, packet_info *pinfo,
                        proto_tree *tree, guint8 *drep, gint size)
@@ -774,9 +757,7 @@ dissect_dcom_SI_ServerInfo(tvbuff_t *tvb, gint offset,
     return offset;
 }
 
-#ifdef SOAAP
 __soaap_vuln_fn("CVE-2013-4925")
-#endif
 static int
 dissect_dcom_SecurtiyInfo(tvbuff_t *tvb, gint offset, packet_info *pinfo,
                        proto_tree *tree, guint8 *drep, gint size)
@@ -820,9 +801,7 @@ dissect_dcom_SecurtiyInfo(tvbuff_t *tvb, gint offset, packet_info *pinfo,
     return offset;
 }
 
-#ifdef SOAAP
 __soaap_vuln_fn("CVE-2013-4925")
-#endif
 static int
 dissect_dcom_LocationInfo(tvbuff_t *tvb, gint offset, packet_info *pinfo,
                        proto_tree *tree, guint8 *drep, gint size)
@@ -921,9 +900,7 @@ dissect_dcom_customREMOTE_REQUEST_SCM_INFO(tvbuff_t *tvb, gint offset,
     return offset;
 }
 
-#ifdef SOAAP
 __soaap_vuln_fn("CVE-2013-4925")
-#endif
 static int
 dissect_dcom_ScmRqstInfo(tvbuff_t *tvb, gint offset, packet_info *pinfo,
                        proto_tree *tree, guint8 *drep, gint size)
@@ -1035,9 +1012,7 @@ dissect_dcom_InterfData(tvbuff_t *tvb, gint offset,
     return offset;
 }
 
-#ifdef SOAAP
 __soaap_vuln_fn("CVE-2013-4925")
-#endif
 static int
 dissect_dcom_PropsOutInfo(tvbuff_t *tvb, gint offset, packet_info *pinfo,
                        proto_tree *tree, guint8 *drep, gint size)
@@ -1155,9 +1130,7 @@ dissect_dcom_customREMOTE_REPLY_SCM_INFO(tvbuff_t *tvb, gint offset,
 }
 
 
-#ifdef SOAAP
 __soaap_vuln_fn("CVE-2013-4925")
-#endif
 static int
 dissect_dcom_ScmReplyInfo(tvbuff_t *tvb, gint offset, packet_info *pinfo,
                        proto_tree *tree, guint8 *drep, gint size)

@@ -32,14 +32,11 @@
 #include <epan/tap.h>
 #include <epan/expert.h>
 #include <epan/wmem/wmem.h>
+#include <epan/epan_soaap.h>
 
 #include "packet-btrfcomm.h"
 #include "packet-btl2cap.h"
 #include "packet-btsdp.h"
-
-#ifdef SOAAP
-#include <soaap.h>
-#endif
 
 /* Initialize the protocol and registered fields */
 static int proto_btobex = -1;
@@ -1047,9 +1044,7 @@ dissect_map_application_parameters(tvbuff_t *tvb, packet_info *pinfo,
    return offset;
 }
 
-#ifdef SOAAP
 __soaap_vuln_fn("CVE-2013-4928")
-#endif
 static int
 dissect_headers(proto_tree *tree, tvbuff_t *tvb, int offset, packet_info *pinfo,
         gint profile, gboolean is_obex_over_l2cap)

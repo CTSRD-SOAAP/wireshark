@@ -36,16 +36,13 @@
 #include <epan/packet.h>
 #include <epan/expert.h>
 #include <epan/tap.h>
+#include <epan/epan_soaap.h>
 
 #include "packet-bssap.h"
 #include "packet-sccp.h"
 #include "packet-gsm_a_common.h"
 #include "packet-gmr1_common.h"
 #include "packet-e212.h"
-
-#ifdef SOAAP
-#include <soaap.h>
-#endif
 
 static const value_string gsm_common_elem_strings[] = {
     /* Common Information Elements 10.5.1 */
@@ -1249,9 +1246,7 @@ guint16 elem_tlv(tvbuff_t *tvb, proto_tree *tree, packet_info *pinfo, guint8 iei
 
         elem_name = try_val_to_str_ext(idx, &elem_names_ext);
 
-#ifdef SOAAP
-	__soaap_vuln_pt("CVE-2013-4932")
-#endif
+        __soaap_vuln_pt("CVE-2013-4932")
         item =
         proto_tree_add_text(tree,
             tvb, curr_offset, parm_len + 1 + lengt_length,
@@ -1345,9 +1340,7 @@ guint16 elem_telv(tvbuff_t *tvb, proto_tree *tree, packet_info *pinfo, guint8 ie
 
         elem_name = try_val_to_str_ext(idx, &elem_names_ext);
 
-#ifdef SOAAP
-	__soaap_vuln_pt("CVE-2013-4932")
-#endif
+        __soaap_vuln_pt("CVE-2013-4932")
         item =
         proto_tree_add_text(tree,
             tvb, curr_offset, parm_len + 1 + lengt_length,
@@ -1433,9 +1426,7 @@ guint16 elem_tlv_e(tvbuff_t *tvb, proto_tree *tree, packet_info *pinfo, guint8 i
 
         elem_name = try_val_to_str_ext(idx, &elem_names_ext);
 
-#ifdef SOAAP
-	__soaap_vuln_pt("CVE-2013-4932")
-#endif
+        __soaap_vuln_pt("CVE-2013-4932")
         item = proto_tree_add_text(tree, tvb, curr_offset, parm_len + 1 + 2,
             "%s%s", elem_name ? elem_name : "Unknown - aborting dissection",
             (name_add == NULL) || (name_add[0] == '\0') ? "" : name_add);
@@ -1515,9 +1506,7 @@ guint16 elem_tv(tvbuff_t *tvb, proto_tree *tree, packet_info *pinfo, guint8 iei,
     {
         elem_name = try_val_to_str_ext(idx, &elem_names_ext);
 
-#ifdef SOAAP
-	__soaap_vuln_pt("CVE-2013-4932")
-#endif
+        __soaap_vuln_pt("CVE-2013-4932")
         item =
             proto_tree_add_text(tree, tvb, curr_offset, -1,
                 "%s%s", elem_name ? elem_name : "Unknown - aborting dissection",
@@ -1596,9 +1585,7 @@ guint16 elem_tv_short(tvbuff_t *tvb, proto_tree *tree, packet_info *pinfo, guint
     {
         elem_name = try_val_to_str_ext(idx, &elem_names_ext);
 
-#ifdef SOAAP
-	__soaap_vuln_pt("CVE-2013-4932")
-#endif
+        __soaap_vuln_pt("CVE-2013-4932")
         item =
             proto_tree_add_text(tree,
                 tvb, curr_offset, -1,
@@ -1709,9 +1696,7 @@ elem_lv(tvbuff_t *tvb, proto_tree *tree, packet_info *pinfo, gint pdu_type, int 
 
     elem_name = try_val_to_str_ext(idx, &elem_names_ext);
 
-#ifdef SOAAP
 	__soaap_vuln_pt("CVE-2013-4932")
-#endif
     item =
         proto_tree_add_text(tree,
             tvb, curr_offset, parm_len + 1,
@@ -1781,9 +1766,7 @@ guint16 elem_lv_e(tvbuff_t *tvb, proto_tree *tree, packet_info *pinfo, gint pdu_
 
     elem_name = try_val_to_str_ext(idx, &elem_names_ext);
 
-#ifdef SOAAP
 	__soaap_vuln_pt("CVE-2013-4932")
-#endif
     item = proto_tree_add_text(tree, tvb, curr_offset, parm_len + 2,
             "%s%s", elem_name ? elem_name : "Unknown - aborting dissection",
             (name_add == NULL) || (name_add[0] == '\0') ? "" : name_add);
@@ -1864,9 +1847,7 @@ guint16 elem_v(tvbuff_t *tvb, proto_tree *tree, packet_info *pinfo, gint pdu_typ
     {
         gchar *a_add_string;
 
-#ifdef SOAAP
 	__soaap_vuln_pt("CVE-2013-4932")
-#endif
         item =
             proto_tree_add_text(tree,
                 tvb, curr_offset, 0,
@@ -1913,9 +1894,7 @@ guint16 elem_v_short(tvbuff_t *tvb, proto_tree *tree, packet_info *pinfo, gint p
 
     elem_name = try_val_to_str_ext(idx, &elem_names_ext);
 
-#ifdef SOAAP
-	__soaap_vuln_pt("CVE-2013-4932")
-#endif
+    __soaap_vuln_pt("CVE-2013-4932")
     item = proto_tree_add_text(tree,
             tvb, curr_offset, 0,
             "%s%s", elem_name ? elem_name : "Unknown - aborting dissection",

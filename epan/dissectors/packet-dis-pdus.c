@@ -26,13 +26,11 @@
 
 #include "config.h"
 
+#include <epan/epan_soaap.h>
+
 #include "packet-dis-pdus.h"
 #include "packet-dis-fields.h"
 #include "packet-dis-enums.h"
-
-#ifdef SOAAP
-#include <soaap.h>
-#endif
 
 #define DIS_PDU_MAX_VARIABLE_PARAMETERS              16
 #define DIS_PDU_MAX_VARIABLE_RECORDS                 16
@@ -738,9 +736,7 @@ void initializeParser(DIS_ParserNode parserNodes[])
 
 /* Parse packet data based on a specified array of DIS_ParserNodes.
  */
-#ifdef SOAAP
 __soaap_vuln_fn("CVE-2013-4929")
-#endif
 gint parseFields(tvbuff_t *tvb, proto_tree *tree, gint offset, DIS_ParserNode parserNodes[])
 {
     guint        fieldIndex     = 0;
