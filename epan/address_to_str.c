@@ -588,9 +588,11 @@ address_to_str_buf(const address *addr, gchar *buf, int buf_len)
   case AT_FC:						/* 9 bytes */
     tempptr = bytes_to_hexstr_punct(tempptr, (const guint8 *)addr->data, 3, '.');	/* 8 bytes */
     break;
+#ifndef MINISHARK
   case AT_SS7PC:
     mtp3_addr_to_str_buf((const mtp3_addr_pc_t *)addr->data, buf, buf_len);
     break;
+#endif
   case AT_STRINGZ:
     g_strlcpy(buf, (const gchar *)addr->data, buf_len);
     break;

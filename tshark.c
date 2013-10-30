@@ -1266,7 +1266,7 @@ main(int argc, char *argv[])
       if (!add_decode_as(optarg))
         return 1;
       break;
-#if defined(HAVE_HEIMDAL_KERBEROS) || defined(HAVE_MIT_KERBEROS)
+#if (defined(HAVE_HEIMDAL_KERBEROS) || defined(HAVE_MIT_KERBEROS)) && !defined(MINISHARK)
     case 'K':        /* Kerberos keytab file */
       read_keytab_file(optarg);
       break;
