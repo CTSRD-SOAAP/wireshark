@@ -1,3 +1,5 @@
+.PATH:	${.CURDIR}/../libminishark
+
 .PATH:	${.CURDIR}/../../epan
 
 .PATH: ${.CURDIR}/../../epan/crypt
