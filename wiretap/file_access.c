@@ -41,12 +41,15 @@
 #include "wtap-int.h"
 #include "file_wrappers.h"
 #include "buffer.h"
+#ifndef MINISHARK
 #include "lanalyzer.h"
 #include "ngsniffer.h"
 #include "radcom.h"
 #include "ascendtext.h"
 #include "nettl.h"
+#endif
 #include "libpcap.h"
+#ifndef MINISHARK
 #include "snoop.h"
 #include "iptrace.h"
 #include "iseries.h"
@@ -74,7 +77,9 @@
 #include "mpeg.h"
 #include "netscreen.h"
 #include "commview.h"
+#endif
 #include "pcapng.h"
+#ifndef MINISHARK
 #include "aethra.h"
 #include "btsnoop.h"
 #include "tnef.h"
@@ -87,6 +92,7 @@
 #include "vwr.h"
 #include "camins.h"
 #include "stanag4607.h"
+#endif
 #include "pcap-encap.h"
 
 /* The open_file_* routines should return:
@@ -121,6 +127,7 @@ static wtap_open_routine_t open_routines_base[] = {
 	 */
 	libpcap_open,
 	pcapng_open,
+#ifndef MINISHARK
 	lanalyzer_open,
 	ngsniffer_open,
 	snoop_open,
@@ -181,10 +188,12 @@ static wtap_open_routine_t open_routines_base[] = {
 	commview_open,
 	nstrace_open,
 	camins_open
+#endif
 };
 
 #define	N_FILE_TYPES	(sizeof open_routines_base / sizeof open_routines_base[0])
 
+#ifndef MINISHARK
 static wtap_open_routine_t* open_routines = NULL;
 
 static GArray* open_routines_arr = NULL;
@@ -212,6 +221,9 @@ void wtap_register_open_routine(wtap_open_routine_t open_routine, gboolean has_m
 
 	open_routines = (wtap_open_routine_t*)(void *)open_routines_arr->data;
 }
+#else
+static wtap_open_routine_t* open_routines = open_routines_base;
+#endif
 
 /*
  * Visual C++ on Win32 systems doesn't define these.  (Old UNIX systems don't
@@ -247,6 +259,7 @@ wtap* wtap_open_offline(const char *filename, int *err, char **err_info,
 	wtap	*wth;
 	unsigned int	i;
 	gboolean use_stdin = FALSE;
+	wtap_open_routine_t open_routine;
 
 	/* open standard input if filename is '-' */
 	if (strcmp(filename, "-") == 0)
@@ -362,7 +375,9 @@ wtap* wtap_open_offline(const char *filename, int *err, char **err_info,
 	wth->tsprecision = WTAP_FILE_TSPREC_USEC;
 	wth->priv = NULL;
 
+#ifndef MINISHARK
 	init_open_routines();
+#endif
 	if (wth->random_fh) {
 		wth->fast_seek = g_ptr_array_new();
 
@@ -371,7 +386,11 @@ wtap* wtap_open_offline(const char *filename, int *err, char **err_info,
 	}
 
 	/* Try all file types */
+#ifndef MINISHARK
 	for (i = 0; i < open_routines_arr->len; i++) {
+#else
+	for (i = 0; i < N_FILE_TYPES; i++) {
+#endif
 		/* Seek back to the beginning of the file; the open routine
 		   for the previous file type may have left the file
 		   position somewhere other than the beginning, and the
@@ -385,7 +404,8 @@ wtap* wtap_open_offline(const char *filename, int *err, char **err_info,
 			return NULL;
 		}
 
-		switch ((*open_routines[i])(wth, err, err_info)) {
+		open_routine = open_routines[i];
+		switch ((*open_routine)(wth, err, err_info)) {
 
 		case -1:
 			/* I/O error - give up */
@@ -550,6 +570,7 @@ static const struct file_type_info dump_open_table_base[] = {
 	  FALSE, FALSE, 0,
 	  libpcap_dump_can_write_encap, libpcap_dump_open },
 
+#ifndef MINISHARK
 	/* WTAP_FILE_5VIEWS */
 	{ "InfoVista 5View capture", "5views", "5vw", NULL,
 	   TRUE, FALSE, 0,
@@ -834,7 +855,7 @@ static const struct file_type_info dump_open_table_base[] = {
 	{ "STANAG 4607 Format", "stanag4607", NULL, NULL,
 	  FALSE, FALSE, 0,
 	  NULL, NULL }
-
+#endif
 };
 
 gint wtap_num_file_types = sizeof(dump_open_table_base) / sizeof(struct file_type_info);
