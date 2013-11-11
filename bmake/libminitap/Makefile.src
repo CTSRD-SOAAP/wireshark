@@ -1,0 +1,15 @@
+.PATH:	${.CURDIR}/../../wiretap
+
+SRCS+=	buffer.c \
+	file_access.c \
+	file_wrappers.c \
+	libpcap.c \
+	merge.c \
+	pcap-common.c \
+	pcapng.c \
+	wtap.c
+
+CFLAGS+=	-I${.CURDIR}/../.. \
+		-I${.CURDIR}/../../wiretap \
+		-I/usr/local/include/glib-2.0
+YFLAGS+=	-p ascend
