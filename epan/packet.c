@@ -52,14 +52,15 @@
 
 #include "emem.h"
 #include "wmem/wmem.h"
+#include "epan_soaap.h"
 
 #include <epan/reassemble.h>
 #include <epan/stream.h>
 #include <epan/expert.h>
 
-static gint proto_malformed = -1;
-static dissector_handle_t frame_handle = NULL;
-static dissector_handle_t data_handle = NULL;
+static gint proto_malformed __soaap_var_read("dissection") = -1;
+static dissector_handle_t frame_handle __soaap_var_read("dissection") = NULL;
+static dissector_handle_t data_handle __soaap_var_read("dissection") = NULL;
 
 /**
  * A data source.
@@ -373,6 +374,7 @@ final_registration_all_protocols(void)
 
 
 /* Creates the top-most tvbuff and calls dissect_frame() */
+__soaap_sandbox_persistent("dissection")
 void
 dissect_packet(epan_dissect_t *edt, struct wtap_pkthdr *phdr,
 	       tvbuff_t *tvb, frame_data *fd, column_info *cinfo)
@@ -2132,8 +2134,8 @@ dissector_dump_decodes(void)
 	dissector_all_tables_foreach(dissector_dump_decodes_display, NULL);
 }
 
-static GPtrArray* post_dissectors = NULL;
-static guint num_of_postdissectors = 0;
+static GPtrArray* post_dissectors __soaap_var_read("dissection") = NULL;
+static guint num_of_postdissectors __soaap_var_read("dissection") = 0;
 
 void
 register_postdissector(dissector_handle_t handle)

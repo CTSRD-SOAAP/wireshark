@@ -37,6 +37,7 @@
 #include <glib.h>
 
 #include "except.h"
+#include "epan_soaap.h"
 
 #ifdef _WIN32
 #if _MSC_VER < 1500
@@ -138,7 +139,7 @@ void except_deinit(void)
 
 static int init_counter;
 static void unhandled_catcher(except_t *);
-static void (*uh_catcher_ptr)(except_t *) = unhandled_catcher;
+static void (*uh_catcher_ptr)(except_t *) __soaap_var_read("dissection") = unhandled_catcher;
 /* We need this 'size_t' cast due to a glitch in GLib where g_malloc was prototyped
  * as 'gpointer g_malloc (gulong n_bytes)'. This was later fixed to the correct prototype
  * 'gpointer g_malloc (gsize n_bytes)'. In Wireshark we use the latter prototype
@@ -148,8 +149,8 @@ static void (*uh_catcher_ptr)(except_t *) = unhandled_catcher;
  * However, we _always_ bundle the newest version of GLib on this platform so
  * the size_t issue doesn't exists here. Pheew.. */
 static void *(*allocator)(size_t) = (void *(*)(size_t)) g_malloc;
-static void (*deallocator)(void *) = g_free;
-static struct except_stacknode *stack_top;
+static void (*deallocator)(void *) __soaap_var_read("dissection")= g_free;
+static struct except_stacknode *stack_top __soaap_var_read("dissection") __soaap_var_write("dissection");
 
 #define get_top() (stack_top)
 #define set_top(T) (stack_top = (T))

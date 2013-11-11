@@ -131,6 +131,8 @@
 #include <epan/prefs.h>
 #include <epan/emem.h>
 
+#include <epan/epan_soaap.h>
+
 #define ENAME_HOSTS     "hosts"
 #define ENAME_SUBNETS   "subnets"
 #define ENAME_ETHERS    "ethers"
@@ -286,21 +288,21 @@ typedef struct _ipxnet
     char              name[MAXNAMELEN];
 } ipxnet_t;
 
-static GHashTable   *ipxnet_hash_table = NULL;
-static GHashTable   *ipv4_hash_table = NULL;
-static GHashTable   *ipv6_hash_table = NULL;
+static GHashTable   *ipxnet_hash_table __soaap_var_read("dissection") = NULL;
+static GHashTable   *ipv4_hash_table __soaap_var_read("dissection") = NULL;
+static GHashTable   *ipv6_hash_table __soaap_var_read("dissection") = NULL;
 
 static gchar        *cb_service;
 static port_type    cb_proto = PT_NONE;
 
 
-static GHashTable *manuf_hashtable = NULL;
-static GHashTable *wka_hashtable = NULL;
-static GHashTable *eth_hashtable = NULL;
+static GHashTable *manuf_hashtable __soaap_var_read("dissection") = NULL;
+static GHashTable *wka_hashtable __soaap_var_read("dissection") = NULL;
+static GHashTable *eth_hashtable __soaap_var_read("dissection") = NULL;
 static GHashTable *serv_port_hashtable = NULL;
 
 static subnet_length_entry_t subnet_length_entries[SUBNETLENGTHSIZE]; /* Ordered array of entries */
-static gboolean have_subnet_entry = FALSE;
+static gboolean have_subnet_entry __soaap_var_read("dissection") = FALSE;
 
 static gboolean new_resolved_objects = FALSE;
 
@@ -352,7 +354,7 @@ ipv6_equal(gconstpointer v1, gconstpointer v2)
  */
 e_addr_resolve gbl_resolv_flags = {TRUE, FALSE, TRUE, TRUE, TRUE, FALSE};
 #if defined(HAVE_C_ARES) || defined(HAVE_GNU_ADNS)
-static guint name_resolve_concurrency = 500;
+static guint name_resolve_concurrency __soaap_var_read("dissection") = 500;
 #endif
 
 /*
@@ -361,10 +363,11 @@ static guint name_resolve_concurrency = 500;
  *  GUI code to change them.
  */
 
-gchar *g_ethers_path    = NULL;     /* global ethers file     */
-gchar *g_pethers_path   = NULL;     /* personal ethers file   */
-gchar *g_ipxnets_path   = NULL;     /* global ipxnets file    */
-gchar *g_pipxnets_path  = NULL;     /* personal ipxnets file  */
+// XXX SOAAP: can't open these files in a sandbox...
+gchar *g_ethers_path    __soaap_var_read("dissection") = NULL;     /* global ethers file     */
+gchar *g_pethers_path   __soaap_var_read("dissection") = NULL;     /* personal ethers file   */
+gchar *g_ipxnets_path   __soaap_var_read("dissection") = NULL;     /* global ipxnets file    */
+gchar *g_pipxnets_path  __soaap_var_read("dissection") = NULL;     /* personal ipxnets file  */
 gchar *g_services_path  = NULL;     /* global services file   */
 gchar *g_pservices_path = NULL;     /* personal services file */
                                     /* first resolving call   */
@@ -428,9 +431,9 @@ typedef struct _async_dns_queue_msg
 #endif /* HAVE_GNU_ADNS */
 #endif /* HAVE_C_ARES */
 #ifdef ASYNC_DNS
-static  gboolean  async_dns_initialized = FALSE;
+static  gboolean  async_dns_initialized __soaap_var_read("dissection") = FALSE;
 static  guint       async_dns_in_flight = 0;
-static  GList    *async_dns_queue_head = NULL;
+static  GList    *async_dns_queue_head __soaap_var_read("dissection") __soaap_var_write("dissection") = NULL;
 
 /* push a dns request */
 static void
@@ -1283,7 +1286,7 @@ parse_ether_line(char *line, ether_t *eth, unsigned int *mask,
 
 } /* parse_ether_line */
 
-static FILE *eth_p = NULL;
+static FILE *eth_p __soaap_var_read("dissection") __soaap_var_write("dissection")= NULL;
 
 static void
 set_ethent(char *path)
@@ -1307,9 +1310,9 @@ static ether_t *
 get_ethent(unsigned int *mask, const gboolean manuf_file)
 {
 
-    static ether_t eth;
-    static int     size = 0;
-    static char   *buf = NULL;
+    static ether_t eth __soaap_var_read("dissection") __soaap_var_write("dissection");
+    static int     size __soaap_var_read("dissection") __soaap_var_write("dissection") = 0;
+    static char   *buf __soaap_var_read("dissection") __soaap_var_write("dissection") = NULL;
 
     if (eth_p == NULL)
         return NULL;
@@ -1882,7 +1885,7 @@ parse_ipxnets_line(char *line, ipxnet_t *ipxnet)
 
 } /* parse_ipxnets_line */
 
-static FILE *ipxnet_p = NULL;
+static FILE *ipxnet_p __soaap_var_read("dissection") __soaap_var_write("dissection") = NULL;
 
 static void
 set_ipxnetent(char *path)
@@ -1906,9 +1909,9 @@ static ipxnet_t *
 get_ipxnetent(void)
 {
 
-    static ipxnet_t ipxnet;
-    static int     size = 0;
-    static char   *buf = NULL;
+    static ipxnet_t ipxnet __soaap_var_read("dissection") __soaap_var_write("dissection");
+    static int     size __soaap_var_read("dissection") __soaap_var_write("dissection") = 0;
+    static char   *buf __soaap_var_read("dissection") __soaap_var_write("dissection") = NULL;
 
     if (ipxnet_p == NULL)
         return NULL;

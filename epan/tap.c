@@ -38,8 +38,9 @@
 #include <epan/packet_info.h>
 #include <epan/dfilter/dfilter.h>
 #include <epan/tap.h>
+#include <epan/epan_soaap.h>
 
-static gboolean tapping_is_active=FALSE;
+static gboolean tapping_is_active __soaap_var_read("dissection") __soaap_var_read("taps") __soaap_var_write("taps") = FALSE;
 
 typedef struct _tap_dissector_t {
 	struct _tap_dissector_t *next;
@@ -62,7 +63,7 @@ typedef struct _tap_packet_t {
 
 #define TAP_PACKET_QUEUE_LEN 100
 static tap_packet_t tap_packet_array[TAP_PACKET_QUEUE_LEN];
-static guint tap_packet_index;
+static guint tap_packet_index __soaap_var_read("dissection") __soaap_var_write("dissection") __soaap_var_read("taps");
 
 typedef struct _tap_listener_t {
 	struct _tap_listener_t *next;
@@ -75,7 +76,9 @@ typedef struct _tap_listener_t {
 	tap_packet_cb packet;
 	tap_draw_cb draw;
 } tap_listener_t;
-static volatile tap_listener_t *tap_listener_queue=NULL;
+static volatile tap_listener_t *tap_listener_queue __soaap_var_read("dissection") __soaap_var_read("taps") = NULL;
+
+__soaap_callgates(dissector, tap_queue_packet)
 
 /* **********************************************************************
  * Init routine only called from epan at application startup
@@ -231,6 +234,7 @@ tap_queue_init(epan_dissect_t *edt)
 /* this function is called after a packet has been fully dissected to push the tapped
    data to all extensions that has callbacks registered.
 */
+__soaap_sandbox_persistent("taps")
 void
 tap_push_tapped_queue(epan_dissect_t *edt)
 {

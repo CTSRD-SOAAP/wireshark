@@ -45,6 +45,7 @@
 #include "proto.h"
 #include "emem.h"
 #include "wmem/wmem.h"
+#include "epan_soaap.h"
 
 #ifdef _WIN32
 #include <windows.h>	/* VirtualAlloc, VirtualProtect */
@@ -170,7 +171,7 @@ static emem_pool_t se_packet_mem;
  *    - use memory after freeing it
  *  Export WIRESHARK_DEBUG_SCRUB_MEMORY to turn it on.
  */
-static gboolean debug_use_memory_scrubber = FALSE;
+static gboolean debug_use_memory_scrubber __soaap_var_read("dissection") = FALSE;
 
 #if defined (_WIN32)
 static SYSTEM_INFO sysinfo;

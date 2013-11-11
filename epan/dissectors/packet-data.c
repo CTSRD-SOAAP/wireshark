@@ -33,6 +33,7 @@
 
 #include <epan/packet.h>
 #include <epan/prefs.h>
+#include <epan/epan_soaap.h>
 #include "packet-data.h"
 
 /* proto_data cannot be static because it's referenced in the
@@ -40,7 +41,7 @@
  */
 void proto_register_data(void);
 
-int proto_data = -1;
+int proto_data __soaap_var_read("dissection") = -1;
 
 #define DATA_HFI_INIT HFI_INIT(proto_data)
 
@@ -56,11 +57,11 @@ static header_field_info hfi_data_len DATA_HFI_INIT =
 static header_field_info hfi_data_md5_hash DATA_HFI_INIT =
 	  { "Payload MD5 hash", "data.md5_hash", FT_STRING, BASE_NONE, NULL, 0x0, NULL, HFILL };
 
-static gboolean new_pane = FALSE;
-static gboolean show_as_text = FALSE;
-static gboolean generate_md5_hash = FALSE;
+static gboolean new_pane __soaap_var_read("dissection") = FALSE;
+static gboolean show_as_text __soaap_var_read("dissection") = FALSE;
+static gboolean generate_md5_hash __soaap_var_read("dissection") = FALSE;
 
-static gint ett_data = -1;
+static gint ett_data __soaap_var_read("dissection") = -1;
 
 static void
 dissect_data(tvbuff_t *tvb, packet_info *pinfo _U_ , proto_tree *tree)

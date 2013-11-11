@@ -30,6 +30,7 @@
 #include <glib.h>
 #include "strutil.h"
 #include "emem.h"
+#include "epan_soaap.h"
 #include <../isprint.h>
 
 
@@ -149,9 +150,10 @@ get_token_len(const guchar *linep, const guchar *lineend,
 gchar *
 format_text(const guchar *string, size_t len)
 {
-    static gchar *fmtbuf[3];
-    static int fmtbuf_len[3];
-    static int idx;
+    static gchar *fmtbuf[3] __soaap_var_read("dissection") __soaap_var_write("dissection");
+    static int fmtbuf_len[3] __soaap_var_read("dissection") __soaap_var_write("dissection");
+    static int idx __soaap_var_read("dissection") __soaap_var_write("dissection");
+
     int column;
     const guchar *stringend = string + len;
     guchar c;

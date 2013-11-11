@@ -39,69 +39,70 @@
 #include <epan/prefs.h>
 #include <epan/tap.h>
 #include <epan/expert.h>
+#include <epan/epan_soaap.h>
 
 #include "packet-frame.h"
 
 #include "color.h"
 #include "color_filters.h"
 
-int proto_frame = -1;
-static int proto_pkt_comment = -1;
-int hf_frame_arrival_time = -1;
-static int hf_frame_shift_offset = -1;
-static int hf_frame_arrival_time_epoch = -1;
-static int hf_frame_time_delta = -1;
-static int hf_frame_time_delta_displayed = -1;
-static int hf_frame_time_relative = -1;
-static int hf_frame_time_reference = -1;
-int hf_frame_number = -1;
-int hf_frame_len = -1;
-int hf_frame_capture_len = -1;
-static int hf_frame_p2p_dir = -1;
-static int hf_frame_file_off = -1;
-static int hf_frame_md5_hash = -1;
-static int hf_frame_marked = -1;
-static int hf_frame_ignored = -1;
-static int hf_link_number = -1;
-static int hf_frame_protocols = -1;
-static int hf_frame_color_filter_name = -1;
-static int hf_frame_color_filter_text = -1;
-static int hf_frame_interface_id = -1;
-static int hf_frame_pack_flags = -1;
-static int hf_frame_pack_direction = -1;
-static int hf_frame_pack_reception_type = -1;
-static int hf_frame_pack_fcs_length = -1;
-static int hf_frame_pack_reserved = -1;
-static int hf_frame_pack_crc_error = -1;
-static int hf_frame_pack_wrong_packet_too_long_error = -1;
-static int hf_frame_pack_wrong_packet_too_short_error = -1;
-static int hf_frame_pack_wrong_inter_frame_gap_error = -1;
-static int hf_frame_pack_unaligned_frame_error = -1;
-static int hf_frame_pack_start_frame_delimiter_error = -1;
-static int hf_frame_pack_preamble_error = -1;
-static int hf_frame_pack_symbol_error = -1;
-static int hf_frame_wtap_encap = -1;
-static int hf_comments_text = -1;
-static int hf_frame_num_p_prot_data = -1;
+int proto_frame __soaap_var_read("dissection") = -1;
+static int proto_pkt_comment __soaap_var_read("dissection") = -1;
+int hf_frame_arrival_time __soaap_var_read("dissection") = -1;
+static int hf_frame_shift_offset __soaap_var_read("dissection") = -1;
+static int hf_frame_arrival_time_epoch __soaap_var_read("dissection") = -1;
+static int hf_frame_time_delta __soaap_var_read("dissection") = -1;
+static int hf_frame_time_delta_displayed __soaap_var_read("dissection") = -1;
+static int hf_frame_time_relative __soaap_var_read("dissection") = -1;
+static int hf_frame_time_reference __soaap_var_read("dissection") = -1;
+int hf_frame_number __soaap_var_read("dissection") = -1;
+int hf_frame_len __soaap_var_read("dissection") = -1;
+int hf_frame_capture_len __soaap_var_read("dissection") = -1;
+static int hf_frame_p2p_dir __soaap_var_read("dissection") = -1;
+static int hf_frame_file_off __soaap_var_read("dissection") = -1;
+static int hf_frame_md5_hash __soaap_var_read("dissection") = -1;
+static int hf_frame_marked __soaap_var_read("dissection") = -1;
+static int hf_frame_ignored __soaap_var_read("dissection") = -1;
+static int hf_link_number __soaap_var_read("dissection") = -1;
+static int hf_frame_protocols __soaap_var_read("dissection") = -1;
+static int hf_frame_color_filter_name __soaap_var_read("dissection") = -1;
+static int hf_frame_color_filter_text __soaap_var_read("dissection") = -1;
+static int hf_frame_interface_id __soaap_var_read("dissection") = -1;
+static int hf_frame_pack_flags __soaap_var_read("dissection") = -1;
+static int hf_frame_pack_direction __soaap_var_read("dissection") = -1;
+static int hf_frame_pack_reception_type __soaap_var_read("dissection") = -1;
+static int hf_frame_pack_fcs_length __soaap_var_read("dissection") = -1;
+static int hf_frame_pack_reserved __soaap_var_read("dissection") = -1;
+static int hf_frame_pack_crc_error __soaap_var_read("dissection") = -1;
+static int hf_frame_pack_wrong_packet_too_long_error __soaap_var_read("dissection") = -1;
+static int hf_frame_pack_wrong_packet_too_short_error __soaap_var_read("dissection") = -1;
+static int hf_frame_pack_wrong_inter_frame_gap_error __soaap_var_read("dissection") = -1;
+static int hf_frame_pack_unaligned_frame_error __soaap_var_read("dissection") = -1;
+static int hf_frame_pack_start_frame_delimiter_error __soaap_var_read("dissection") = -1;
+static int hf_frame_pack_preamble_error __soaap_var_read("dissection") = -1;
+static int hf_frame_pack_symbol_error __soaap_var_read("dissection") = -1;
+static int hf_frame_wtap_encap __soaap_var_read("dissection") = -1;
+static int hf_comments_text __soaap_var_read("dissection") = -1;
+static int hf_frame_num_p_prot_data __soaap_var_read("dissection") = -1;
 
-static gint ett_frame = -1;
-static gint ett_flags = -1;
-static gint ett_comments = -1;
+static gint ett_frame __soaap_var_read("dissection") = -1;
+static gint ett_flags __soaap_var_read("dissection") = -1;
+static gint ett_comments __soaap_var_read("dissection") = -1;
 
 static expert_field ei_comments_text = EI_INIT;
 static expert_field ei_arrive_time_out_of_range = EI_INIT;
 
-static int frame_tap = -1;
+static int frame_tap __soaap_var_read("dissection") = -1;
 
-static dissector_handle_t data_handle;
-static dissector_handle_t docsis_handle;
+static dissector_handle_t data_handle __soaap_var_read("dissection");
+static dissector_handle_t docsis_handle __soaap_var_read("dissection");
 
 /* Preferences */
-static gboolean show_file_off       = FALSE;
-static gboolean force_docsis_encap  = FALSE;
-static gboolean generate_md5_hash   = FALSE;
-static gboolean generate_epoch_time = TRUE;
-static gboolean generate_bits_field = TRUE;
+static gboolean show_file_off       __soaap_var_read("dissection") = FALSE;
+static gboolean force_docsis_encap  __soaap_var_read("dissection") = FALSE;
+static gboolean generate_md5_hash   __soaap_var_read("dissection") = FALSE;
+static gboolean generate_epoch_time __soaap_var_read("dissection") = TRUE;
+static gboolean generate_bits_field __soaap_var_read("dissection") = TRUE;
 
 static const value_string p2p_dirs[] = {
 	{ P2P_DIR_UNKNOWN, "Unknown" },
@@ -143,7 +144,7 @@ static const value_string packet_word_reception_types[] = {
 	{ 0, NULL }
 };
 
-dissector_table_t wtap_encap_dissector_table;
+dissector_table_t wtap_encap_dissector_table __soaap_var_read("dissection");
 
 /*
  * Routine used to register frame end routine.  The routine should only

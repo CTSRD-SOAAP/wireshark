@@ -33,24 +33,25 @@
 #include "emem.h"
 #include "wmem/wmem.h"
 #include "tap.h"
+#include "epan_soaap.h"
 
 
 /* proto_expert cannot be static because it's referenced in the
  * print routines
  */
-int proto_expert              = -1;
+int proto_expert __soaap_var_read("dissection") = -1;
 
-static int proto_malformed    = -1;
+static int proto_malformed __soaap_var_read("dissection") = -1;
 
-static int expert_tap         = -1;
-static int highest_severity   =  0;
+static int expert_tap __soaap_var_read("dissection") = -1;
+static int highest_severity __soaap_var_read("dissection") __soaap_var_write("dissection") __soaap_private("dissection") = 0;
 
-static int ett_expert         = -1;
-static int ett_subexpert      = -1;
+static int ett_expert __soaap_var_read("dissection") = -1;
+static int ett_subexpert __soaap_var_read("dissection") = -1;
 
-static int hf_expert_msg      = -1;
-static int hf_expert_group    = -1;
-static int hf_expert_severity = -1;
+static int hf_expert_msg __soaap_var_read("dissection")     = -1;
+static int hf_expert_group __soaap_var_read("dissection") = -1;
+static int hf_expert_severity __soaap_var_read("dissection") = -1;
 
 struct expert_module
 {

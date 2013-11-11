@@ -29,10 +29,11 @@
 #include <epan/packet.h>
 #include <epan/expert.h>
 #include <epan/show_exception.h>
+#include <epan/epan_soaap.h>
 
-static int proto_short = -1;
-static int proto_malformed = -1;
-static int proto_unreassembled = -1;
+static int proto_short __soaap_var_read("dissection") = -1;
+static int proto_malformed __soaap_var_read("dissection") = -1;
+static int proto_unreassembled __soaap_var_read("dissection") = -1;
 
 void
 register_show_exception(void)
