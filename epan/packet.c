@@ -419,8 +419,16 @@ struct dissector_handle {
 	const char	*name;		/* dissector name */
 	gboolean	is_new;		/* TRUE if new-style dissector */
 	union {
-		dissector_t	old;
-		new_dissector_t	new_d;
+		dissector_t	old
+#ifdef SOAAP
+#include "dissectors.h"
+#endif
+		;
+		new_dissector_t	new_d
+#ifdef SOAAP
+#include "dissectors.h"
+#endif
+		;
 	} dissector;
 	protocol_t	*protocol;
 };

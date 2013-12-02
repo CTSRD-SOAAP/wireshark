@@ -1,0 +1,8 @@
+ascend.c
+ascend.h
+dtd_parse.c
+dtd_preparse.c
+k12text.c
+opt.core
+soaap.out
+uat_load.c
