@@ -27,7 +27,6 @@ SRCS+=	5views.c \
 	k12.c \
 	lanalyzer.c \
 	libpcap.c \
-	merge.c \
 	mpeg.c \
 	mime_file.c \
 	mp2t.c \
@@ -46,7 +45,6 @@ SRCS+=	5views.c \
 	pppdump.c \
 	radcom.c \
 	snoop.c \
-	stanag4607.c \
 	tnef.c \
 	toshiba.c \
 	visual.c \

@@ -1,10 +1,11 @@
 .PATH:	${.CURDIR}/../../wiretap
 
-SRCS+=	buffer.c \
+SRCS+=	atm.c \
+	buffer.c \
+	erf.c \
 	file_access.c \
 	file_wrappers.c \
 	libpcap.c \
-	merge.c \
 	pcap-common.c \
 	pcapng.c \
 	wtap.c

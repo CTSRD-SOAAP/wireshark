@@ -11,6 +11,7 @@ SRCS=	\
 	clopts_common.c \
 	conditions.c \
 	dumpcap.c \
+	tempfile.c \
 	pcapio.c \
 	ringbuffer.c \
 	sync_pipe_write.c \

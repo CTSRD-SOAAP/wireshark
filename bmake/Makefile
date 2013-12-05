@@ -1,7 +1,10 @@
-SUBDIR=	libui \
+SUBDIR=	\
+		libairpdcap \
+		libui \
 		libwiretap \
 		libwireshark \
-		libwsutil
+		libwsutil \
+		libwmem
 SUBDIR+=	tshark
 
 .include <bsd.subdir.mk>

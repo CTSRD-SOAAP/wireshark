@@ -1,0 +1,13 @@
+.PATH: ${.CURDIR}/../../epan/wmem
+
+SRCS+=	\
+	wmem_allocator_block.c \
+	wmem_allocator_simple.c \
+	wmem_allocator_strict.c \
+	wmem_core.c \
+	wmem_scopes.c \
+	wmem_slist.c \
+	wmem_stack.c \
+	wmem_strbuf.c \
+	wmem_strutl.c \
+	wmem_test.c

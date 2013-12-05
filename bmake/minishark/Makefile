@@ -4,6 +4,11 @@ NO_MAN=
 .PATH:	${.CURDIR}/../..
 SRCS=	capture_opts.c \
 	capture_sync.c \
+	disabled_protos.c \
+	frame_data_sequence.c \
+	print.c \
+	tempfile.c \
+	timestats.c \
 	tshark-tap-register.c \
 	tshark.c \
 	${TSHARK_TAP_SRC} \
@@ -28,7 +33,6 @@ WIRESHARK_COMMON_SRC= \
 	cfile.c \
 	cfutils.c \
 	clopts_common.c \
-	frame_tvbuff.c \
 	sync_pipe_write.c \
 	version_info.c
 
@@ -53,5 +57,8 @@ LDADD+=	-L../libminitap -L${.CURDIR}/../libminitap -lminitap \
 	-L../libminishark -L${.CURDIR}/../libminishark -lminishark \
 	-L../libwsutil -L${.CURDIR}/../libwsutil -l wsutil
 .endif
+
+LDADD+=	-L../libairpdcap -L${.CURDIR}../libairpdcap -lairpdcap \
+	-L../libwmem -L${.CURDIR}../libwmem -lwmem
 
 .include <bsd.prog.mk>

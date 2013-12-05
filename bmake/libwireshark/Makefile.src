@@ -149,7 +149,6 @@ DISSECTOR_SRCS+= \
 		packet-tcap.c \
 		packet-tetra.c
 DISSECTOR_SRCS+= \
-		file-mp4.c \
 		packet-2dparityfec.c \
 		packet-3com-njack.c \
 		packet-3com-xns.c \
@@ -217,7 +216,6 @@ DISSECTOR_SRCS+= \
 		packet-ascend.c \
 		packet-asf.c \
 		packet-assa_r3.c \
-		packet-asterix.c \
 		packet-at.c \
 		packet-atalk.c \
 		packet-atm.c \
@@ -255,7 +253,6 @@ DISSECTOR_SRCS+= \
 		packet-bssgp.c \
 		packet-bt-dht.c \
 		packet-bt-utp.c \
-		packet-bt3ds.c \
 		packet-btamp.c \
 		packet-btatt.c \
 		packet-btbnep.c \
@@ -282,7 +279,6 @@ DISSECTOR_SRCS+= \
 		packet-calcappprotocol.c \
 		packet-canopen.c \
 		packet-capwap.c \
-		packet-carp.c \
 		packet-cast.c \
 		packet-catapult-dct2000.c \
 		packet-ccsds.c \
@@ -298,7 +294,6 @@ DISSECTOR_SRCS+= \
 		packet-cipmotion.c \
 		packet-cipsafety.c \
 		packet-cisco-erspan.c \
-		packet-cisco-metadata.c \
 		packet-cisco-oui.c \
 		packet-cisco-sm.c \
 		packet-cisco-wids.c \
@@ -473,7 +468,6 @@ DISSECTOR_SRCS+= \
 		packet-evrc.c \
 		packet-exec.c \
 		packet-extreme.c \
-		packet-exported_pdu.c \
 		packet-fc.c \
 		packet-fcct.c \
 		packet-fcdns.c \
@@ -592,7 +586,6 @@ DISSECTOR_SRCS+= \
 		packet-hsr.c \
 		packet-hsrp.c \
 		packet-http.c \
-		packet-http-urlencoded.c \
 		packet-hyperscsi.c \
 		packet-i2c.c \
 		packet-iana-oui.c \
@@ -605,7 +598,6 @@ DISSECTOR_SRCS+= \
 		packet-icp.c \
 		packet-icq.c \
 		packet-idp.c \
-		packet-idrp.c \
 		packet-iec104.c \
 		packet-ieee1722.c \
 		packet-ieee17221.c \
@@ -679,7 +671,6 @@ DISSECTOR_SRCS+= \
 		packet-jxta.c \
 		packet-k12.c \
 		packet-kadm5.c \
-		packet-kafka.c \
 		packet-kdp.c \
 		packet-kdsp.c \
 		packet-kerberos.c \
@@ -836,7 +827,6 @@ DISSECTOR_SRCS+= \
 		packet-olsr.c \
 		packet-omapi.c \
 		packet-omron-fins.c \
-		packet-openflow.c \
 		packet-opensafety.c \
 		packet-openvpn.c \
 		packet-openwire.c \
@@ -881,7 +871,6 @@ DISSECTOR_SRCS+= \
 		packet-pptp.c \
 		packet-prp.c \
 		packet-ptp.c \
-		packet-ptpip.c \
 		packet-pulse.c \
 		packet-pvfs2.c \
 		packet-pw-atm.c \
@@ -926,6 +915,7 @@ DISSECTOR_SRCS+= \
 		packet-rmcp.c \
 		packet-rmi.c \
 		packet-rmp.c \
+		packet-rmt-common.c \
 		packet-rmt-alc.c \
 		packet-rmt-fec.c \
 		packet-rmt-lct.c \
@@ -943,7 +933,6 @@ DISSECTOR_SRCS+= \
 		packet-rstat.c \
 		packet-rsvp.c \
 		packet-rsync.c \
-		packet-rtacser.c \
 		packet-rtcdc.c \
 		packet-rtcp.c \
 		packet-rtmpt.c \
@@ -951,7 +940,6 @@ DISSECTOR_SRCS+= \
 		packet-rtp-events.c \
 		packet-rtp-midi.c \
 		packet-rtp.c \
-		packet-rtpproxy.c \
 		packet-rtps.c \
 		packet-rtsp.c \
 		packet-rudp.c \
@@ -1024,7 +1012,6 @@ DISSECTOR_SRCS+= \
 		packet-ssh.c \
 		packet-ssl-utils.c \
 		packet-ssl.c \
-		packet-stanag4607.c \
 		packet-starteam.c \
 		packet-stat-notify.c \
 		packet-stat.c \
@@ -1077,7 +1064,6 @@ DISSECTOR_SRCS+= \
 		packet-ucp.c \
 		packet-udld.c \
 		packet-udp.c \
-		packet-udt.c \
 		packet-uhd.c \
 		packet-uma.c \
 		packet-umts_fp.c \
@@ -1122,7 +1108,6 @@ DISSECTOR_SRCS+= \
 		packet-websocket.c \
 		packet-wfleet-hdlc.c \
 		packet-who.c \
-		packet-wifi-display.c \
 		packet-wifi-p2p.c \
 		packet-windows-common.c \
 		packet-winsrepl.c \
@@ -1163,10 +1148,6 @@ DISSECTOR_SRCS+= \
 		packet-zbee-nwk.c \
 		packet-zbee-security.c \
 		packet-zbee-zcl.c \
-		packet-zbee-zcl-general.c \
-		packet-zbee-zcl-ha.c \
-		packet-zbee-zcl-meas-sensing.c \
-		packet-zbee-zcl-se.c \
 		packet-zbee-zdp-binding.c \
 		packet-zbee-zdp-discovery.c \
 		packet-zbee-zdp-management.c \
@@ -1207,29 +1188,12 @@ FTYPE_SRCS= \
 	ftype-time.c \
 	ftype-tvbuff.c
 
-.PATH: ${.CURDIR}/../../epan/wmem
-WMEM_SRCS= \
-	wmem_array.c \
-	wmem_core.c \
-	wmem_allocator_block.c \
-	wmem_allocator_simple.c \
-	wmem_allocator_strict.c \
-	wmem_list.c \
-	wmem_miscutl.c \
-	wmem_scopes.c \
-	wmem_stack.c \
-	wmem_strbuf.c \
-	wmem_strutl.c \
-	wmem_tree.c \
-	wmem_user_cb.c
-		
 LIBWIRESHARK_SRCS= \
 	addr_and_mask.c \
 	addr_resolv.c \
 	address_to_str.c \
 	adler32.c \
 	afn.c \
-	app_mem_usage.c \
 	asn1.c \
 	asm_utils.c \
 	atalk-utils.c \
@@ -1245,19 +1209,16 @@ LIBWIRESHARK_SRCS= \
 	crc16-tvb.c \
 	crc32-tvb.c \
 	crc8-tvb.c \
-	disabled_protos.c \
 	dissector_filters.c \
 	emem.c \
 	epan.c \
 	ex-opt.c \
 	except.c \
 	expert.c \
-	exported_pdu.c \
 	filesystem.c \
 	filter_expressions.c \
 	follow.c \
 	frame_data.c \
-	frame_data_sequence.c \
 	frequency-utils.c \
 	funnel.c \
 	gcp.c \
@@ -1269,18 +1230,18 @@ LIBWIRESHARK_SRCS= \
 	ipproto.c \
 	ipv4.c \
 	next_tvb.c \
+	nstime.c \
 	oids.c \
 	osi-utils.c \
-	packet-range.c \
 	packet.c \
 	plugins.c \
-	print.c \
 	prefs.c \
 	proto.c \
 	ps.c \
 	range.c \
 	reassemble.c \
 	reedsolomon.c \
+	report_err.c \
 	req_resp_hdrs.c \
 	show_exception.c \
 	sigcomp_state_hdlr.c \
@@ -1295,14 +1256,10 @@ LIBWIRESHARK_SRCS= \
 	tap.c \
 	tcap-persistentdata.c \
 	timestamp.c \
-	timestats.c \
 	tfs.c \
 	to_str.c \
 	tvbparse.c \
 	tvbuff.c \
-	tvbuff_composite.c \
-	tvbuff_real.c \
-	tvbuff_subset.c \
 	uat.c \
 	value_string.c \
 	xdlc.c \

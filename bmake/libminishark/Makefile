@@ -8,5 +8,4 @@ CFLAGS+=	-DMINISHARK
 
 .include <bsd.own.mk>
 
-#-I${.CURDIR}/../../wsutil/abi-check-headers
 .include <bsd.lib.mk>

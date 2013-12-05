@@ -4,6 +4,11 @@ NO_MAN=
 .PATH:	${.CURDIR}/../..
 SRCS=	capture_opts.c \
 	capture_sync.c \
+	disabled_protos.c \
+	frame_data_sequence.c \
+	print.c \
+	tempfile.c \
+	timestats.c \
 	tshark-tap-register.c \
 	tshark.c \
 	${TSHARK_TAP_SRC} \
@@ -35,6 +40,7 @@ TSHARK_TAP_SRC= \
 	tap-macltestat.c \
 	tap-mgcpstat.c \
 	tap-megacostat.c \
+	tap-megaco-common.c \
 	tap-protocolinfo.c \
 	tap-protohierstat.c \
 	tap-radiusstat.c \
@@ -42,6 +48,7 @@ TSHARK_TAP_SRC= \
 	tap-rpcstat.c \
 	tap-rpcprogs.c \
 	tap-rtp.c \
+	tap-rtp-common.c \
 	tap-rtspstat.c \
 	tap-scsistat.c \
 	tap-sctpchunkstat.c \
@@ -62,7 +69,6 @@ WIRESHARK_COMMON_SRC= \
 	cfile.c \
 	cfutils.c \
 	clopts_common.c \
-	frame_tvbuff.c \
 	sync_pipe_write.c \
 	version_info.c
 
@@ -77,7 +83,7 @@ LDADD+=	-lkrb5 -lm -lpcap -lz \
 	-L/usr/local/lib -ladns -lglib-2.0 -lgmodule-2.0 -lGeoIP \
 	-L../libui -L${.CURDIR}/../libui -lui
 
-.if ${MK_SOAAP} == "no"
+.if !defined(MK_SOAAP) || ${MK_SOAAP} == "no"
 LDADD+=	-L../libwiretap -L${.CURDIR}/../libwiretap -lwiretap \
 	-L../libwireshark -L${.CURDIR}/../libwireshark -lwireshark \
 	-L../libwsutil -L${.CURDIR}/../libwsutil -l wsutil
@@ -86,5 +92,8 @@ LDADD+=	-L../libwiretap -L${.CURDIR}/../libwiretap -lwiretap \
 .include "${.CURDIR}/../libwireshark/Makefile.src"
 .include "${.CURDIR}/../libwsutil/Makefile.src"
 .endif
+
+LDADD+=	-L../libairpdcap -L${.CURDIR}../libairpdcap -lairpdcap \
+	-L../libwmem -L${.CURDIR}../libwmem -lwmem
 
 .include <bsd.prog.mk>

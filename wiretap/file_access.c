@@ -120,6 +120,7 @@ static wtap_open_routine_t open_routines_base[] = {
 	 */
 	libpcap_open,
 	pcapng_open,
+#ifndef MINISHARK
 	lanalyzer_open,
 	ngsniffer_open,
 	snoop_open,
@@ -179,6 +180,7 @@ static wtap_open_routine_t open_routines_base[] = {
 	commview_open,
 	nstrace_open,
 	camins_open
+#endif
 };
 
 #define	N_FILE_TYPES	(sizeof open_routines_base / sizeof open_routines_base[0])
@@ -547,7 +549,7 @@ static const struct file_type_info dump_open_table_base[] = {
 	{ "SuSE 6.3 tcpdump - libpcap", "suse6_3libpcap", "pcap", "cap;dmp",
 	  FALSE, FALSE, 0,
 	  libpcap_dump_can_write_encap, libpcap_dump_open },
-
+#ifndef MINISHARK
 	/* WTAP_FILE_5VIEWS */
 	{ "InfoVista 5View capture", "5views", "5vw", NULL,
 	   TRUE, FALSE, 0,
@@ -827,6 +829,7 @@ static const struct file_type_info dump_open_table_base[] = {
 	{ "CAM Inspector file", "camins", "camins", NULL,
 	  FALSE, FALSE, 0,
 	  NULL, NULL }
+#endif
 };
 
 gint wtap_num_file_types = sizeof(dump_open_table_base) / sizeof(struct file_type_info);
