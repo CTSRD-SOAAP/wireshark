@@ -81,6 +81,7 @@ reordercap
 stamp-h1
 text2pcap
 tshark
+wmem_test
 wireshark
 ylwrap
 
@@ -137,6 +138,7 @@ qtshark
 cscope.*
 packaging/macosx/COPYING.txt
 packaging/macosx/Info.plist
+packaging/macosx/Wireshark_package.pmdoc/index.xml
 packaging/macosx/osx-dmg.sh
 packaging/rpm/SPECS/wireshark.spec
 packaging/svr4/checkinstall

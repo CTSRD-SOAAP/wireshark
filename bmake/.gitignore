@@ -1,0 +1,12 @@
+!Makefile
+!Makefile.src
+libminishark/dtd_parse.c
+libminishark/dtd_preparse.c
+libminishark/uat_load.c
+libwireshark/dtd_parse.c
+libwireshark/dtd_preparse.c
+libwireshark/uat_load.c
+libwiretap/ascend.c
+libwiretap/ascend.h
+libwiretap/k12text.c
+minishark/minishark
